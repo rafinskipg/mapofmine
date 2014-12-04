@@ -12,7 +12,8 @@ module.exports = function (app) {
 router.get('/authorize_user', authorize_user);
 // This is your redirect URI
 router.get('/handleauth', handleauth);
-
+// This is your redirect URI
+router.get('/pictures/:id', getPictures);
 
 // Every call to `ig.use()` overrides the `client_id/client_secret`
 // or `access_token` previously entered if they exist.
@@ -34,13 +35,20 @@ function handleauth(req, res) {
       res.send("Didn't work");
     } else {
       console.log('Yay! Access token is ' + result.access_token +' for user' + result.user.username);
-      goodLogin(result,res);
+      renderMap(res,result);
     }
   });
 }
 
-function goodLogin(info, res){
-  ig.user_media_recent(info.user.id, {count: -1}, function(err, medias, pagination, remaining, limit) {
+function renderMap(res, info){
+  res.render('map', {
+    title: 'Hi,'+info.user.username+' this is your map...',
+    info: info
+  });
+}
+
+function getPictures(req, res){
+  ig.user_media_recent(req.params.id, {count: -1}, function(err, medias, pagination, remaining, limit) {
     if(err){
       console.log('Error', err);
       res.send('Error' +err);

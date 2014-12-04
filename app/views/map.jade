@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  div(id="map")
+  script(type='text/javascript').
+    var idUser = #{info.user.id};
+    var map = L.map('map', {
+      center: [51.505, -0.09],
+      zoom: 13
+    });
+
+    $.ajax('/pictures/'+idUser)
+      .then(function(result){
+        console.log(result);
+      })
+      .fail(function(err){
+        console.log('error');
+      });
