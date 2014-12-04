@@ -7,9 +7,12 @@ html(lang='en')
     block css
       link(rel='stylesheet', href='/css/style.css')
       link(rel='stylesheet', href='/components/leaflet/dist/leaflet.css')
+      link(rel='stylesheet', href='/components/leaflet.markercluster/dist/leaflet.markercluster.css')
     block js
       script(src='/components/jquery/dist/jquery.js')
       script(src='/components/leaflet/dist/leaflet.js')
+      script(src='/components/leaflet.markercluster/dist/leaflet.markercluster.js')
+      script(src='/js/map.js')
       script(src='http://localhost:35729/livereload.js')
   body
     block content

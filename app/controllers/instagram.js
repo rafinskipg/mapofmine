@@ -2,6 +2,7 @@ var ig = require('instagram-node').instagram();
 var express = require('express'),
   router = express.Router(),
   igconfig = require('../igconfig'),
+  //pictureModel = require('../models/picture'),
   q = require('q');
 
 module.exports = function (app) {
@@ -32,7 +33,7 @@ function handleauth(req, res) {
   ig.authorize_user(req.query.code, igconfig.redirect, function(err, result) {
     if (err) {
       console.log(err.body);
-      res.send("Didn't work");
+      res.redirect('/');
     } else {
       console.log('Yay! Access token is ' + result.access_token +' for user' + result.user.username);
       renderMap(res,result);
@@ -48,11 +49,12 @@ function renderMap(res, info){
 }
 
 function getPictures(req, res){
-  ig.user_media_recent(req.params.id, {count: -1}, function(err, medias, pagination, remaining, limit) {
+  ig.user_media_recent(req.params.id,  function(err, medias, pagination, remaining, limit) {
     if(err){
       console.log('Error', err);
       res.send('Error' +err);
     }else{
+      
       res.send(medias);  
     }
     
