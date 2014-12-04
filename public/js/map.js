@@ -3,7 +3,7 @@ var tileUrl = 'http://{s}.tiles.mapbox.com/v3/mapofmine.20e17b27/{z}/{x}/{y}.png
 function loadMap(userId){
   var map = L.map('map', {
     center: [51.505, -0.09],
-    zoom: 18
+    zoom: 7
   });
 
   L.tileLayer(tileUrl, {
@@ -31,25 +31,29 @@ function paintResults(results, map){
   });
 
   for(var i = 0; i < results.length; i++){
-    var width = results[i].images.thumbnail.width;
-    var height = results[i].images.thumbnail.height;
+    /*var width = results[i].images.thumbnail.width;
+    var height = results[i].images.thumbnail.height;*/
+    var width = 100,
+        height = 100;
+    if(results[i].location){
+      var myIcon = L.icon({
+        iconUrl: results[i].images.thumbnail.url,
+        iconRetinaUrl: results[i].images.standard_resolution.url,
+        iconSize: [width, height],
+        iconAnchor: [width/ 2, height]
+      });
+      var latlng = {
+        lat: results[i].location.latitude,
+        lng: results[i].location.longitude
+      };
 
-    var myIcon = L.icon({
-      iconUrl: results[i].images.thumbnail.url,
-      iconRetinaUrl: results[i].images.standard_resolution.url,
-      iconSize: [width, height],
-      iconAnchor: [width/ 2, height]
-    });
-    var latlng = {
-      lat: results[i].location.latitude,
-      lng: results[i].location.longitude
-    };
+      markers.addLayer(new L.Marker(latlng, {
+        icon : myIcon
+      }));
+
+      bounds.push(latlng);
+    }
     
-    markers.addLayer(new L.Marker(latlng, {
-      icon : myIcon
-    }));
-    
-    bounds.push(latlng);
   }
   
   map.addLayer(markers);

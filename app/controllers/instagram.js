@@ -49,15 +49,46 @@ function renderMap(res, info){
 }
 
 function getPictures(req, res){
-  ig.user_media_recent(req.params.id,  function(err, medias, pagination, remaining, limit) {
-    if(err){
-      console.log('Error', err);
-      res.send('Error' +err);
-    }else{
-      
-      res.send(medias);  
+  accPictures(req.params.id)
+    .then(function(media){
+      res.send(media);
+    })
+    .fail(function(error){
+      res.send(500);
+    })
+}
+
+function accPictures(userId){
+  var dfd = q.defer();
+  
+  var doRequestMedia = function(nextId, acc){
+    var options = {
+      count: 100
+    }
+    if(nextId){
+      options.max_id = nextId;
     }
     
-  });
+    //Do request
+    ig.user_media_recent(userId, options, function(err, medias, pagination, remaining, limit) {
+      if(err){
+        console.log('ERROR' , err);
+        dfd.reject(err);
+      }else{
+        acc = acc.concat(medias);
+        if(!pagination.next_max_id){ 
+          console.log('resolving')
+          dfd.resolve(acc); 
+        } else {
+          console.log('requesting', pagination.next_max_id);
+          return doRequestMedia(pagination.next_max_id, acc);
+        }
+      }
+    });
+  }
+  
+  doRequestMedia(null, []);
+  
+  return dfd.promise;
 }
 
