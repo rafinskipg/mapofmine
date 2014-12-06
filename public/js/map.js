@@ -31,8 +31,7 @@ function paintResults(results, map){
   });
 
   for(var i = 0; i < results.length; i++){
-    /*var width = results[i].images.thumbnail.width;
-    var height = results[i].images.thumbnail.height;*/
+ 
     var width = 100,
         height = 100;
     if(results[i].location){
