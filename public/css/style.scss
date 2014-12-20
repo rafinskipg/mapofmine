@@ -5,22 +5,11 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 body:before {
-    content: "";
-    position: absolute;
-    background: url('https://www.agtinternational.com/wp-content/uploads/2013/11/City-solution.jpg');
-    background-size: cover;
-    -webkit-filter: blur(1px);
-    z-index: -1; /* Keep the background behind the content */
-    height: 20%; width: 20%; /* Using Glen Maddern's trick /via @mente */
 
-    /* don't forget to use the prefixes you need */
-    transform: scale(5);
-    transform-origin: top left;
-    filter: blur(2px);
 }
 .home{
   padding: 10%;
-  color: white;
+  color: #333;
 }
 a {
   color: #00B7FF;

@@ -23,6 +23,7 @@ function loadMap(userId){
 function paintResults(results, map){
   var bounds = [];
   var markers = new L.MarkerClusterGroup({
+    showCoverageOnHover: false,
     iconCreateFunction: function(cluster) {
       return new L.DivIcon({ html: '<div class="stack"><div class="image">'+
                             '<img src="'+cluster.getAllChildMarkers()[0].options.icon.options.iconUrl+'"></img>'+
