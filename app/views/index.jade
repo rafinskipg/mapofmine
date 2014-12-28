@@ -1,7 +1,34 @@
 extends layout
 
 block content
-  div(class="home")
-    h1= title
-    p Welcome to #{title}
-    a(href="https://api.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{redirect}&response_type=code") Login instagram
+  div.container
+    div(class="home")
+      h1= title
+      p Welcome to #{title}
+      a(href="https://api.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{redirect}&response_type=code") Login instagram
+    section.request-access
+
+      div.row
+        div.col-xs-6.col-xs-offset-3
+          div.text
+            | Signup for beta access
+          div.form
+            div.form-group         
+              input.form-control.email(type='text', name='email', placeholder="Email")
+            div.form-group
+              input.form-control.btn.btn-success(type='submit', id="signup", value='Signup!', disabled="disabled")
+          div.confirm.hide
+            div.alert.alert-sucess Yay! :)
+          div.error-message.hide
+            div.alert.alert-danger The email is invalid or is already registered
+
+    section.features
+      div.row
+        div.col-xs-12
+          h2 Features
+          ul
+            li Share your instagram map! 
+            li Comment and review your itineraries with your friends
+            li Get a unique url for your map ex: http://instamap.com/mymap
+
+  script(src='/js/signup.js')

@@ -9,6 +9,9 @@
   "dependencies": {
     "leaflet": "~0.7.3",
     "jquery": "~2.1.1",
-    "leaflet.markercluster": "~0.4.0"
+    "leaflet.markercluster": "~0.4.0",
+    "bootstrap": "~3.3.1",
+    "font-awesome": "~4.2.0",
+    "animate.css": "~3.2.0"
   }
 }

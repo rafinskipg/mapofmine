@@ -8,6 +8,7 @@ var config = {
     app: {
       name: 'mapofmine'
     },
+    db: 'mongodb://localhost/mapofmine',
     port: 3000,
   },
 
@@ -17,6 +18,7 @@ var config = {
       name: 'mapofmine'
     },
     port: 3000,
+    db: 'mongodb://localhost/mapofmine'
   },
 
   production: {
@@ -25,6 +27,7 @@ var config = {
       name: 'mapofmine'
     },
     port: 3000,
+    db: 'mongodb://localhost/mapofmine'
   }
 };
 
