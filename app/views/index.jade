@@ -1,34 +1,48 @@
 extends layout
 
 block content
-  div.container
-    div(class="home")
-      h1= title
-      p Welcome to #{title}
-      a(href="https://api.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{redirect}&response_type=code") Login instagram
-    section.request-access
+  include ./navbar.jade
+  div.container-fluid.index
 
-      div.row
-        div.col-xs-6.col-xs-offset-3
-          div.text
-            | Signup for beta access
-          div.form
-            div.form-group         
-              input.form-control.email(type='text', name='email', placeholder="Email")
-            div.form-group
-              input.form-control.btn.btn-success(type='submit', id="signup", value='Signup!', disabled="disabled")
-          div.confirm.hide
-            div.alert.alert-sucess Yay! :)
-          div.error-message.hide
-            div.alert.alert-danger The email is invalid or is already registered
+    section.row(id="intro")
+      div.blurred.bg
+      div.col-xs-12.content
+        h1= title
+        div.row
+          div.col-xs-4.col-xs-offset-4
+            div.separator
+        div.text
+          div We are creating an interactive instagram map for your pictures,
+          div so you will be able to browse and share your map of pictures with your friends
+        a.btn.btn-success(href="https://api.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{redirect}&response_type=code") Take a look
 
-    section.features
-      div.row
-        div.col-xs-12
-          h2 Features
-          ul
-            li Share your instagram map! 
-            li Comment and review your itineraries with your friends
-            li Get a unique url for your map ex: http://instamap.com/mymap
+    section.row(id="features")
+      div.blurred.bg
+      div.col-xs-12.content
+        h2 Features
+        div.row
+          div.col-xs-4
+            | Share your instagram map with your friends and get a unique URL for your user
+          div.col-xs-4
+            | Comment and review your itineraries with your friends
+          div.col-xs-4
+            | Access from any device or operating system
+
+    section.row(id="signup")
+      div.blurred.bg
+      div.col-xs-12.content
+        div.row
+          div.col-xs-6.col-xs-offset-3
+            div.text
+              | Signup for beta access
+            div.form
+              div.form-group         
+                input.form-control.email(type='text', name='email', placeholder="Email")
+              div.form-group
+                input.form-control.btn.btn-success(type='submit', id="signup-button", value='Signup!', disabled="disabled")
+            div.confirm.hide
+              div.alert.alert-success Yay! :)
+            div.error-message.hide
+              div.alert.alert-danger The email is invalid or is already registered
 
   script(src='/js/signup.js')

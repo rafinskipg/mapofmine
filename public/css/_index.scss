@@ -1,0 +1,73 @@
+.index{
+	margin-top: 50px;
+
+	section{
+		height: 100vh;
+		padding-top: 50px;
+		background: black;
+		border: 1px solid rgb(90, 76, 76);
+		position: relative;
+		padding-top: 20%;
+
+		.bg{
+			position: absolute; 
+			z-index: 0;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			&.blurred{
+				-webkit-filter: blur(1px);
+			}
+		}
+
+		.content{
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.87);
+			padding: 30px;
+
+			&.boxed{
+				text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.87);
+				background: rgba(0, 92, 145, 0.4)
+			}
+		}
+	}
+
+	#intro{
+		text-align: center;
+		color: white;
+		.bg{
+			background: url('/img/bg2.jpg');
+			background-size: cover;	
+		}
+
+		.separator{
+			margin-bottom: 20px;
+			border-top: 1px solid white;
+		}
+
+		.text{
+			margin-bottom: 20px;
+		}
+	}
+
+	#features{
+		text-align: center;
+		color: white;
+		.bg{
+			background: url('/img/bg4.jpg');
+			background-size: cover;	
+		}
+	}
+
+	#signup{
+		text-align: center;
+		color: white;
+		.bg{
+			background: url('/img/bg3.jpg');
+			background-size: cover;	
+		}
+		.text{
+			margin-bottom: 20px;
+		}
+	}
+}

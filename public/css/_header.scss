@@ -1,0 +1,31 @@
+.navbar-default {
+  text-transform: uppercase;
+  font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight: 700;
+  background: #2c3e50;
+  color: white;
+
+  .navbar-brand, .navbar-nav > li > a{
+    color: white;
+    transition: color 0.5s linear;
+    &:focus {
+      outline: 0;
+    }
+    &:hover{
+      color: #076A83;
+    }
+  }
+}
+
+.navbar .navbar-nav {
+    letter-spacing: 1px;
+}
+
+.navbar .navbar-nav li a:focus {
+    outline: 0;
+}
+
+.navbar-default,
+.navbar-inverse {
+    border: 0;
+}
