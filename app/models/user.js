@@ -23,7 +23,8 @@ var UserSchema = new Schema({
   password: String,
   status : { type: String, default: 'inactive' },
   last_visit : { type: Date, default: Date.now() },
-  last_login : { type: Date, default: Date.now() }
+  last_login : { type: Date, default: Date.now() },
+  visits : { type : Number , default : 0}
 });
 
 /** Example instagram data

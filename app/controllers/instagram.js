@@ -41,6 +41,9 @@ function handleauth(req, res) {
       console.log('Yay! Access token is ' + result.access_token +' for user ' + result.user.username);
       getOrCreateUser(result.user)
         .then(function(user){
+          return fetchImages(user);
+        })
+        .then(function(user){
           res.redirect('/'+user.instagram.username);
         })
         .catch(function(err){
@@ -52,7 +55,7 @@ function handleauth(req, res) {
 }
 
 function getUserMap(req, res){
-  findUserInstagram(instagramUserName)
+  findUserInstagram(req.params.username)
     .then(function(user){
       renderMap(res, user);
     })
@@ -72,16 +75,24 @@ function renderMap(res, user){
 
 //Get pictures for the map
 function getPictures(req, res){
-  accPictures(req.params.id)
-    .then(function(media){
-      return storeMedia(req.params.username, media);
+  findUserInstagram(req.params.username)
+    .then(function(user){
+      res.send(user.pictures);
+      user.visits += 1;
+      user.last_visit = Date.now();
+      user.save(function(err){
+        if(err){ 
+          console.log(err);
+        }else{
+          console.log('User updated stadistics');
+        }
+        
+      })
     })
-    .then(function(media){
-      res.send(media);
-    })
-    .fail(function(error){
+    .catch(function(err){
+      console.log('Error getting pictures', err);
       res.send(500);
-    })
+    });
 }
 
 //Do recursive requests to the instagram API and get all of them
@@ -121,23 +132,18 @@ function accPictures(userId){
 
 
 //Stores the media in the user, replacing all the user pictures
-function storeMedia(instagramUserName, media){
+function storeMedia(user, media){
   var dfd = q.defer();
-  
-  findUserInstagram(instagramUserName)
-    .then(function(user){
-      console.log('found user', user);
-      user.updated_at = Date.now();
-      user.last_login = Date.now();
-      user.pictures = media;
       
-      user.save(function(err){
-        if(err) return dfd.reject(err);
-        console.log('user updated');
-        dfd.resolve(media);
-      });
-    })
-    .catch(dfd.reject);
+  user.updated_at = Date.now();
+  user.last_login = Date.now();
+  user.pictures = media;
+      
+  user.save(function(err){
+    if(err) return dfd.reject(err);
+    console.log('user updated');
+    dfd.resolve(media);
+  });
   
   return dfd.promise;
 }
@@ -157,6 +163,22 @@ function findUserInstagram(username){
   return dfd.promise;
 }
 
+function fetchImages(user){
+  var dfd = q.defer();
+  
+  accPictures(user.instagram.id)
+  .then(function(media){
+    return storeMedia(user, media);
+  })
+  .then(function(media){
+    dfd.resolve(user);
+  })
+  .fail(function(error){
+    dfd.reject(error);
+  });
+  
+  return dfd.promise;
+}
 
 function getOrCreateUser(userInstagram){
   var dfd = q.defer();

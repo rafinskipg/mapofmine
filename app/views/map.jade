@@ -3,6 +3,6 @@ extends layout
 block content
   div(id="map")
   script(type='text/javascript').
-    var userId = #{userId};
-    var userName = #{userName};
+    var userId = '#{userId}';
+    var userName = '#{userName}';
     loadMap(userId, userName);
