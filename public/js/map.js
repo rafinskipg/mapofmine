@@ -23,18 +23,20 @@ function loadMap(userId){
 function paintResults(results, map){
   var bounds = [];
   var markers = new L.MarkerClusterGroup({
-    showCoverageOnHover: false,
-    iconCreateFunction: function(cluster) {
-      return new L.DivIcon({ html: '<div class="stack"><div class="image">'+
-                            '<img src="'+cluster.getAllChildMarkers()[0].options.icon.options.iconUrl+'"></img>'+
-                            '</div><div class="iconCount">' + cluster.getChildCount() + '</div></div>' });
-    }
-  });
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: true,
+      spiderfyDistanceMultiplier: 3,
+      iconCreateFunction: function(cluster) {
+        return new L.DivIcon({ html: '<div class="stack"><div class="image">'+
+                              '<img src="'+cluster.getAllChildMarkers()[0].options.icon.options.iconUrl+'"></img>'+
+                              '</div><div class="iconCount">' + cluster.getChildCount() + '</div></div>' });
+      }
+    });
 
   for(var i = 0; i < results.length; i++){
- 
     var width = 100,
         height = 100;
+
     if(results[i].location){
       var myIcon = L.icon({
         iconUrl: results[i].images.thumbnail.url,
@@ -42,6 +44,7 @@ function paintResults(results, map){
         iconSize: [width, height],
         iconAnchor: [width/ 2, height]
       });
+
       var latlng = {
         lat: results[i].location.latitude,
         lng: results[i].location.longitude
@@ -51,6 +54,7 @@ function paintResults(results, map){
         icon : myIcon
       }));
 
+      //Available for fitbounds
       bounds.push(latlng);
     }
     
