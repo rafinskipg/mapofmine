@@ -14,3 +14,9 @@ router.get('/', function (req, res, next) {
       redirect: igconfig.redirect
     });
 });
+
+router.get('/404', function (req, res, next) {
+    res.render('oops', {
+      title: 'oopsy'
+    });
+});

@@ -11,7 +11,7 @@ var UserSchema = new Schema({
     type: String,
     trim: true,
     unique: true,
-    required: 'Email address is required',
+    //required: 'Email address is required',
     validate: [validateEmail, 'Please fill a valid email address'],
     match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
   },
@@ -22,8 +22,8 @@ var UserSchema = new Schema({
   role: { type: String, required: false, default: 'user'},
   password: String,
   status : { type: String, default: 'inactive' },
-  last_visit : Date,
-  last_login : Date
+  last_visit : { type: Date, default: Date.now() },
+  last_login : { type: Date, default: Date.now() }
 });
 
 /** Example instagram data

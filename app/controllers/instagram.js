@@ -15,8 +15,9 @@ router.get('/authorize_user', authorize_user);
 router.get('/handleauth', handleauth);
 // Get the pictures for the map
 router.get('/pictures/:id/:username', getPictures);
+
 // Get the stored pictures for the user
-//router.get('/:username', getUserData);
+router.get('/:username', getUserMap);
 
 // Every call to `ig.use()` overrides the `client_id/client_secret`
 // or `access_token` previously entered if they exist.
@@ -38,7 +39,7 @@ function handleauth(req, res) {
       res.redirect('/');
     } else {
       console.log('Yay! Access token is ' + result.access_token +' for user ' + result.user.username);
-      createUser(result.user)
+      getOrCreateUser(result.user)
         .then(function(user){
           res.redirect('/'+user.instagram.username);
         })
@@ -46,16 +47,26 @@ function handleauth(req, res) {
           console.log(err);
           res.redirect('/');
         })
-      //renderMap(res,result);
     }
   });
 }
 
-function renderMap(res, info){
+function getUserMap(req, res){
+  findUserInstagram(instagramUserName)
+    .then(function(user){
+      renderMap(res, user);
+    })
+    .catch(function(err){
+      console.log('That user does not exist');
+      res.redirect('/404');
+    });
+}
+
+function renderMap(res, user){
   res.render('map', {
-    title: 'Hi,'+info.user.username+' this is your map...',
-    info: info,
-    userId: info.user.id
+    title: 'Hi,'+user.instagram.username+' this is your map...',
+    info: user,
+    userId: user.instagram.id
   });
 }
 
@@ -147,12 +158,29 @@ function findUserInstagram(username){
 }
 
 
-function createUser(userInstagram){
+function getOrCreateUser(userInstagram){
   var dfd = q.defer();
   
   findUserInstagram(userInstagram.username)
     .then(function(user){
-      console.log('Ey found', user);
+      if(!user){
+        console.log('user not found, creating one');
+        user = new userModel();
+        user.instagram = userInstagram;
+        
+        user.save(function (err, user) {
+          if (err) {
+            dfd.reject(err);
+          }else{
+            dfd.resolve(user);
+          }
+        });
+        
+      }else{
+        console.log('Ey found', user);
+        dfd.resolve(user);
+      }
+      
     })
     .catch(function(err){
       console.log(err);
