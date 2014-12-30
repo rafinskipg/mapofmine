@@ -1,6 +1,6 @@
 var tileUrl = 'http://{s}.tiles.mapbox.com/v3/mapofmine.20e17b27/{z}/{x}/{y}.png';
 
-function loadMap(userId){
+function loadMap(userId, userName){
   var map = L.map('map', {
     center: [51.505, -0.09],
     zoom: 7
@@ -11,7 +11,7 @@ function loadMap(userId){
     noWrap: false
   }).addTo(map);
 
-  $.ajax('/pictures/'+userId)
+  $.ajax('/pictures/'+userId+'/'+userName)
   .then(function(result){
     paintResults(result, map);
   })

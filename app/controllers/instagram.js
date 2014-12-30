@@ -65,7 +65,7 @@ function getUserMap(req, res){
 function renderMap(res, user){
   res.render('map', {
     title: 'Hi,'+user.instagram.username+' this is your map...',
-    info: user,
+    userName: user.instagram.username,
     userId: user.instagram.id
   });
 }
