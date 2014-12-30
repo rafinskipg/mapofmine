@@ -15,6 +15,15 @@ block content
           div We are creating an interactive instagram map for your pictures,
           div so you will be able to browse and share your map of pictures with your friends
         a.btn.btn-success(href="https://api.instagram.com/oauth/authorize/?client_id=#{clientId}&redirect_uri=#{redirect}&response_type=code") Take a look
+        div.row.recent-maps
+          div.col-xs-12
+            p Our more recent users...
+          each user in usermaps
+            div.col-xs-2.user-map
+              a(href="#{'/' + user.instagram.username}")
+                img.img-circle(src="#{user.instagram.profile_picture}")
+                div.user-name #{user.instagram.username}
+
 
     section.row(id="features")
       div.blurred.bg

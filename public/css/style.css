@@ -43,7 +43,7 @@ a {
     background: black;
     border: 1px solid #5a4c4c;
     position: relative;
-    padding-top: 20%; }
+    padding-top: 10%; }
     .index section .bg {
       position: absolute;
       z-index: 0;
@@ -70,6 +70,15 @@ a {
       border-top: 1px solid white; }
     .index #intro .text {
       margin-bottom: 20px; }
+    .index #intro .recent-maps {
+      margin-top: 30px; }
+    .index #intro .user-map a {
+      color: white;
+      text-decoration: none; }
+    .index #intro .user-map img {
+      max-width: 100%; }
+    .index #intro .user-map .user-name {
+      font-size: 11px; }
   .index #features {
     text-align: center;
     color: white; }

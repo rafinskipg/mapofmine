@@ -7,7 +7,7 @@
 		background: black;
 		border: 1px solid rgb(90, 76, 76);
 		position: relative;
-		padding-top: 20%;
+		padding-top: 10%;
 
 		.bg{
 			position: absolute; 
@@ -47,6 +47,21 @@
 
 		.text{
 			margin-bottom: 20px;
+		}
+		.recent-maps{
+			margin-top: 30px;
+		}
+		.user-map {
+			a{
+				color: white;
+				text-decoration: none;
+			}
+			img{
+				max-width: 100%;
+			}
+			.user-name{
+				font-size: 11px;
+			}
 		}
 	}
 
