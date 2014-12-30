@@ -15,15 +15,20 @@ var UserSchema = new Schema({
     validate: [validateEmail, 'Please fill a valid email address'],
     match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
   },
-  iguid: { type: String},
+  instagram: Schema.Types.Mixed, //See example data below
   pictures: Array,
   updated_at: Date,
   finished_at: Date,
   role: { type: String, required: false, default: 'user'},
   password: String,
-  status : { type: String, default: 'inactive' }
+  status : { type: String, default: 'inactive' },
+  last_visit : Date,
+  last_login : Date
 });
 
+/** Example instagram data
+{"username":"rafinskipg","bio":"","website":"","profile_picture":"https:\/\/instagramimages-a.akamaihd.net\/profiles\/anonymousUser.jpg","full_name":"","id":"1583946235"}
+**/
 
 
 UserSchema.virtual('created_at')

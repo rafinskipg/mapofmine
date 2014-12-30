@@ -3,5 +3,5 @@ extends layout
 block content
   div(id="map")
   script(type='text/javascript').
-    var userId = #{info.user.id};
+    var userId = #{userId};
     loadMap(userId);
