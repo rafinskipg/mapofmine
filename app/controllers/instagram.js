@@ -37,7 +37,7 @@ function handleauth(req, res) {
       console.log(err.body);
       res.redirect('/');
     } else {
-      console.log('Yay! Access token is ' + result.access_token +' for user' + result.user.username);
+      console.log('Yay! Access token is ' + result.access_token +' for user ' + result.user.username);
       createUser(result.user)
         .then(function(user){
           res.redirect('/'+user.instagram.username);
@@ -148,11 +148,15 @@ function findUserInstagram(username){
 
 
 function createUser(userInstagram){
+  var dfd = q.defer();
+  
   findUserInstagram(userInstagram.username)
     .then(function(user){
       console.log('Ey found', user);
     })
     .catch(function(err){
       console.log(err);
-    })
+    });
+  
+  return dfd.promise;
 }
