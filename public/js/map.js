@@ -1,5 +1,5 @@
 var tileUrl = 'http://{s}.tiles.mapbox.com/v3/mapofmine.20e17b27/{z}/{x}/{y}.png';
-
+var loaded = false;
 function loadMap(userId, userName){
   var map = L.map('map', {
     center: [51.505, -0.09],
@@ -9,15 +9,21 @@ function loadMap(userId, userName){
   L.tileLayer(tileUrl, {
     detectRetina: true,
     noWrap: false
-  }).addTo(map);
-
-  $.ajax('/pictures/'+userId+'/'+userName)
-  .then(function(result){
-    paintResults(result, map);
+  }).addTo(map).on('load', function(){
+    if(!loaded){
+      $.ajax('/pictures/'+userId+'/'+userName)
+      .then(function(result){
+        loaded = true;
+        paintResults(result, map);
+      })
+      .fail(function(err){
+        console.log('error');
+      });
+    }
+    
   })
-  .fail(function(err){
-    console.log('error');
-  });
+
+  
 }
 
 function paintResults(results, map){
@@ -38,7 +44,7 @@ function paintResults(results, map){
                               '</div><div class="iconCount">' + cluster.getChildCount() + '</div></div>' });
       }
     });
-  markers.on('clusterclick', function (a) {
+    markers.on('clusterclick', function (a) {
 			a.layer.zoomToBounds();
 		});
 
@@ -76,14 +82,18 @@ function paintResults(results, map){
   }
   
   map.addLayer(markers);
-  map.fitBounds(bounds, {animate: true});
+  if(bounds.length){
+    map.fitBounds(bounds, {animate: true});
+  }
+ 
 
 }
 
 function openModal(data,e){
     console.log(data,e);
-  debugger
-  $('.modal .modal-content  ').html(_.template(templateModal, {
+ 
+  var compiled = _.template(templateModal);
+  $('.modal .modal-content-custom').html(compiled({
     imageSrc: data.images.standard_resolution.url ,
     imageHref: data.link,
     numberLikes : data.likes.count,
@@ -91,9 +101,9 @@ function openModal(data,e){
   }));
   
   $('.modal .close').on('click', function(){
-    $('.modal').addClass('hidden');
+    $('.modal').css('display', 'none');
   })
-  $('.modal').removeClass('hidden');
+  $('.modal').css('display', 'block');
   
 
 }
