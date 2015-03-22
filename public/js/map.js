@@ -61,6 +61,8 @@ function paintResults(results, map){
   }
   
   map.addLayer(markers);
-  map.fitBounds(bounds);
+  if(bounds.length > 0){
+    map.fitBounds(bounds);
+  }
 
 }
