@@ -65,6 +65,7 @@ function handleauth(req, res) {
 }
 
 function getUserMap(req, res){
+  console.log(req.params)
   findUserInstagram(req.params.username)
     .then(function(user){
       console.log('found user', user)
@@ -80,8 +81,7 @@ function getUserMap(req, res){
 function renderMap(res, user){
   res.render('map', {
     title: 'Hi,'+user.instagram.username+' this is your map...',
-    userName: user.instagram.username,
-    userId: user.instagram.id
+    user:user
   });
 }
 

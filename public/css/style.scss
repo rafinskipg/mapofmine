@@ -12,6 +12,9 @@ a {
   color: #00B7FF;
 }
 
+img{
+  max-width: 100%;
+}
 #map {
   width: 100%;
   height: 100vh;
@@ -83,3 +86,4 @@ a {
 @import "index";
 @import "header";
 @import "modal";
+@import "user";

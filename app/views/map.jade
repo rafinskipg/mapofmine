@@ -2,6 +2,26 @@ extends layout
 
 block content
   div(id="map")
+  div(id="userProfile")
+    span.close
+      span.glyphicon.glyphicon-remove
+    div.row.user-info
+      div.col-xs-3
+        img.img-circle(src="#{user.instagram.profile_picture}")
+      div.col-xs-9
+        div.name #{user.instagram.username}
+        div.bio #{user.instagram.bio}
+    div.controls
+      div.row
+        div.col-xs-6
+          div.btn.btn-success Save Changes
+    div.controls
+      div.alert.alert-danger Warning zone
+      div.row
+        div.col-xs-6
+          div.btn.btn-danger Delete Account
+
+    
 
   div(class="modal")
     div(class="modal-bg")
@@ -9,6 +29,6 @@ block content
       
 
   script(type='text/javascript').
-    var userId = '#{userId}';
-    var userName = '#{userName}';
+    var userId = '#{user.instagram.id}';
+    var userName = '#{user.instagram.username}';
     loadMap(userId, userName);
