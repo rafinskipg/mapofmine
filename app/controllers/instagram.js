@@ -28,11 +28,13 @@ ig.use({ client_id: igconfig.id,
 
 // This is where you would initially send users to authorize
 function authorize_user (req, res) {
+  console.log('authorize')
   res.redirect(ig.get_authorization_url(igconfig.redirect, { scope: ['likes'], state: 'a state' }));
 }
 
 // This is your redirect URI. We store a user, if it doesn't exist and redirect to its map
 function handleauth(req, res) {
+  console.log('handling auth');
   ig.authorize_user(req.query.code, igconfig.redirect, function(err, result) {
     if (err) {
       console.log(err.body);
@@ -41,14 +43,22 @@ function handleauth(req, res) {
       console.log('Yay! Access token is ' + result.access_token +' for user ' + result.user.username);
       getOrCreateUser(result.user)
         .then(function(user){
+          console.log('fetching images');
+          //TODO If fetch images fails, because of private, send to error and remove the user.
           return fetchImages(user);
         })
         .then(function(user){
+          console.log('user found, redirecting');
           res.redirect('/'+user.instagram.username);
         })
         .catch(function(err){
           console.log(err);
-          res.redirect('/');
+          console.log('removing', result.user.username)
+          userModel.remove({'instagram.username': result.user.username}, function (err) {
+            console.log(err);
+          });
+          res.render('error', { error : err});
+          
         })
     }
   });
@@ -57,9 +67,11 @@ function handleauth(req, res) {
 function getUserMap(req, res){
   findUserInstagram(req.params.username)
     .then(function(user){
+      console.log('found user', user)
       renderMap(res, user);
     })
     .catch(function(err){
+      console.log(err)
       console.log('That user does not exist');
       res.redirect('/404');
     });
@@ -173,7 +185,7 @@ function fetchImages(user){
   .then(function(media){
     dfd.resolve(user);
   })
-  .fail(function(error){
+  .catch(function(error){
     dfd.reject(error);
   });
   

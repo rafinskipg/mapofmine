@@ -2,7 +2,12 @@ extends layout
 
 block content
   div(id="map")
-  div(id="usertab")
+
+  div(class="modal")
+    div(class="modal-bg")
+      div(class="modal-content-custom")
+      
+
   script(type='text/javascript').
     var userId = '#{userId}';
     var userName = '#{userName}';
